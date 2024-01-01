@@ -6,12 +6,13 @@ import Form from "@/components/Form";
 import NFTDisplay from "@/components/NFTDisplay";
 
 //將 IPFS 資源轉換為可透過 HTTP 訪問的資源
-const ipfsGateway = (url: string) =>
-  url.replace("ipfs://", "https://ipfs.io/ipfs/");
+const ipfsGateway = (uri: string) =>
+  uri.replace("ipfs://", "https://ipfs.io/ipfs/");
 
 const Home: NextPage = () => {
   const [address, setAddress] = useState(
-    process.env.NEXT_PUBLIC_ERC721_ADDRESS || ""
+    process.env.NEXT_PUBLIC_ERC721_ADDRESS ||
+      "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D"
   );
   const [tokenId, setTokenId] = useState("2911");
   let bigIntTokenId = BigInt("");
@@ -48,7 +49,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (tokenURI) {
+      console.log("tokenURI", tokenURI);
+      if (!tokenURI) {
         return;
       }
       setMetadataIsLoading(true);
